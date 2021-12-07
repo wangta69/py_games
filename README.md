@@ -5,4 +5,4 @@
 pip install pygame
 ```
 
-키보드
+[기본사용법](1_basic/README.md)
