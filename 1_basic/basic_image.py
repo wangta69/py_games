@@ -43,9 +43,13 @@ while True:
     x = 200
     y = 100
     degree = 10
-    rotated = pygame.transform.rotate(img, degree)
-    rect = rotated.get_rect()
+    rotated = pygame.transform.rotate(img, degree)  # 이미지를 회전한다.
+    rect = rotated.get_rect()  # get_rect(centerx=300, bottom=800) # get_rect(topleft=(100, 300))
+    # print('rect:', rect)
+    # < rect(0, 0, 864, 1004) >
     rect.center = (x, y)
+    # print('rect:', rect)
+    # <rect(-232, -402, 864, 1004)>
     screen.blit(rotated, rect)
 
 
