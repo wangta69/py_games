@@ -1,4 +1,6 @@
-# 참조 https://devnauts.tistory.com/61
+# Drawing
+
+```
 import sys
 import pygame
 from math import pi
@@ -9,21 +11,13 @@ pygame.init()
 # Define the colors we will use in RGB format
 BLACK = (0,  0,  0)
 WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-GREEN = (0, 255,  0)
 RED = (255,  0,  0)
+GREEN = (0, 255,  0)
+BLUE = (0, 0, 255)
 
-"""
-FULLSCREEN : 전체 화면 모드를 사용
-HWSURFACE : 하드웨어 가속 사용. 전체 화면 모드에서만 가능
-OPENGL : OpenGL 사용 가능한 디스플레이를 초기화
-DOUBLEBUF : 더블 버퍼 모드를 사용. HWSURFACE or OPENGL에서 사용을 추천
-"""
+
 screen = pygame.display.set_mode((400, 300))  # 윈도우 크기설정
-# screen = pygame.display.set_mode((400, 300), FULLSCREEN | HWSURFACE | DOUBLEBUF)
-pygame.display.set_caption('Hello World!')  # 타이틀바의 텍스트를 설정
-
-clock = pygame.time.Clock()
+pygame.display.set_caption('Hello PyGame')  # 타이틀바의 텍스트를 설정
 
 while True:
     for event in pygame.event.get():
@@ -32,7 +26,6 @@ while True:
             pygame.quit()
             sys.exit()
 
-    clock.tick(30) # 초당 30 fps를 위해 딜레이를 추가
     screen.fill(WHITE)  # r g b 로 윈도우 채움
     
     # 사각형 그리기
@@ -96,14 +89,10 @@ while True:
 
     # 전체 화면을 업데이트 할 경우
     # 모든 그리기가 완료된후 실행되어야 함
-    pygame.display.flip()
-    # pygame.display.update()
+    # pygame.display.flip()
+    pygame.display.update()
 
 
 pygame.quit()
 
-#
-#
-# pygame.draw.rect(SURFACE, (0, 0, 255), Rect(pos_x, pos_y, 100, 50))
-#
-
+```
