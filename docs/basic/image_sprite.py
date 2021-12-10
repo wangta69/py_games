@@ -34,7 +34,7 @@ while True:
 
     pygame.display.flip()  # 화면 전체를 업데이트
 
-# save subsurfaces as separated images
+# save subsurfaces as separated assets
 # for x in range(11):
 #     name = 'frame_' + str(x) + '.png'
 #     pygame.image.save( imgs[x], 'frame_' + str(x) + '.png' )

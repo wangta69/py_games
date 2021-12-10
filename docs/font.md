@@ -14,6 +14,8 @@ GREEN = (0, 255, 0)
 # 폰트 로딩 및 텍스트 객체 초기화
 fontObj = pygame.font.Font('../../assets/fonts/NanumPen.ttf', 32)
 textSurfaceObj = fontObj.render('나눔펜 Font!', True, GREEN)
+# large_font = pygame.font.SysFont('arial', 72) # system Font를 사용할 경우
+
 textRectObj = textSurfaceObj.get_rect()
 textRectObj.center = (150, 100)
 

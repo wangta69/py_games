@@ -9,7 +9,6 @@ screen_height = 400
 # color
 WHITE = (255, 255, 255)
 
-
 def main():
     screen = pygame.display.set_mode((screen_width, screen_height))
     fps = pygame.time.Clock()
@@ -22,9 +21,6 @@ def main():
     dino_x = 50
     dino_y = dino_bottom
     leg_swap = True
-    jump_top = 200  # 점프를 하면 200까지 올린다.
-    is_bottom = True  # 점프중인지 아닌지 확인
-    is_go_up = False  # 올라가는 중인지 내려오는 중인지 확인
 
     # tree image
     tree = pygame.image.load('assets/images/tree.png')
@@ -38,24 +34,6 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if is_bottom:  # 키보드를 누를때 현재 공룔이 바닥에 있으면
-                    is_go_up = True
-                    is_bottom = False
-
-        # dino jumping
-        if is_go_up:  # 위로 올라가는 중이면
-            dino_y -= 10.0
-        elif not is_go_up and not is_bottom:  # 내려오지만 아직 바닥이 아닌 경우는
-            dino_y += 10.0
-
-        # dino top and bottom check
-        if is_go_up and dino_y <= jump_top:  # 올라가는 중이고 점핑 한계에 도달하면
-            is_go_up = False
-
-        if not is_bottom and dino_y >= dino_bottom:  # 바닥보다 아래면
-            is_bottom = True
-            dino_y = dino_bottom
 
         screen.fill(WHITE)
 
@@ -78,6 +56,7 @@ def main():
         # update
         pygame.display.update()
         fps.tick(30)  # 초당 30번 실행
+
 
 
 if __name__ == '__main__':

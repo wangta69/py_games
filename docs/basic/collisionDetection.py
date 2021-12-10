@@ -1,4 +1,5 @@
-import pygame, sys, random
+import pygame
+import sys
 from pygame.locals import *
 
 pygame.init()
@@ -11,28 +12,17 @@ WHITE = (255,  255,  255)
 BLACK = (0,  0,  0)
 BLUE = (0, 0, 255)
 
-pos_x = 200
-pos_y = 150
+pos_x = 200  # 자동차의 x
+pos_y = 150  # 자동차의 y
 
-block = {'rect': pygame.Rect(50, 50, 50, 50)}
-car = {'rect': pygame.Rect(200, 150, 100, 50)}
+block = pygame.Rect(50, 50, 50, 50)
+car = pygame.Rect(pos_x, pos_y, 100, 50)
 
-# def doRectsOverlap(rect1, rect2):
-#     for a, b in [(rect1, rect2), (rect2, rect1)]:
-#         # Check if a's corners are inside b
-#         if ((isPointInsideRect(a.left, a.top, b)) or
-#             (isPointInsideRect(a.left, a.bottom, b)) or
-#             (isPointInsideRect(a.right, a.top, b)) or
-#             (isPointInsideRect(a.right, a.bottom, b))):
-#             return True
-#
-#     return False
-#
-# def isPointInsideRect(x, y, rect):
-#     if (x > rect.left) and (x < rect.right) and (y > rect.top) and (y < rect.bottom):
-#         return True
-#     else:
-#         return False
+def collision_check(obj1, obj2):
+    if obj1.top < obj2.bottom and obj2.top < obj1.bottom and obj1.left < obj2.right and obj2.left < obj1.right:
+        return True
+    else:
+        return False
 
 while True:
     for event in pygame.event.get():
@@ -50,16 +40,14 @@ while True:
                 pos_y += 5
 
     screen.fill(WHITE)
-    pygame.draw.rect(screen, BLACK, block['rect'])
-    pygame.draw.rect(screen, BLUE, car['rect'])
+    pygame.draw.rect(screen, BLACK, block)
+    pygame.draw.rect(screen, BLUE, car)
 
-    car['rect'].x = pos_x
-    car['rect'].y = pos_y
+    car.x = pos_x
+    car.y = pos_y
 
-    print('car', car['rect'].top, car['rect'].width)
-    # 비행기가 동굴의 top이나 bottom에 다으면 게임 종료
-    if block['rect'].x <= car['rect'].x and block['rect'].x + block['rect'].width <= car['rect'].x :
-        pass
+    if collision_check(car, block):
+        print('Crash!!')
 
     pygame.display.update()
     FpsClock.tick(30)

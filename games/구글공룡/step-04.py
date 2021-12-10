@@ -9,7 +9,6 @@ screen_height = 400
 # color
 WHITE = (255, 255, 255)
 
-
 def main():
     screen = pygame.display.set_mode((screen_width, screen_height))
     fps = pygame.time.Clock()
@@ -52,7 +51,7 @@ def main():
         # dino top and bottom check
         if is_go_up and dino_y <= jump_top:  # 올라가는 중이고 점핑 한계에 도달하면
             is_go_up = False
-
+            
         if not is_bottom and dino_y >= dino_bottom:  # 바닥보다 아래면
             is_bottom = True
             dino_y = dino_bottom

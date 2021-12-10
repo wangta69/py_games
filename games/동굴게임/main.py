@@ -15,8 +15,7 @@ YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
 large_font = pygame.font.Font('../../assets/fonts/NanumGothic.ttf', 72)
 small_font = pygame.font.Font('../../assets/fonts/NanumGothic.ttf', 36)
-# large_font = pygame.font.SysFont('arial', 72)
-# small_font = pygame.font.SysFont('arial', 36)
+
 
 print(pygame.font.get_fonts())
 score = 0

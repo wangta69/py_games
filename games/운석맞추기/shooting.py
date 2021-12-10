@@ -2,7 +2,6 @@ import pygame
 import random
 from time import sleep
 
-# https://wikidocs.net/65638
 BLACK = (0, 0, 0)
 padWidth = 480
 padHeight = 640
