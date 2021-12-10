@@ -12,5 +12,6 @@
 - [Mouse Events](docs/mouse.md)
 - [Images](docs/image.md)
 - [Sounds](docs/sound.md)
+- [Text & Fonts](docs/font.md)
 - [Collision Detection](docs/collisionDetection.md)
 ## 게임 예제
