@@ -3,10 +3,12 @@ import sys
 
 pygame.init()
 pygame.display.set_caption('Jumping Dino')
+
+# 게임 화면 크기
 screen_width = 800
 screen_height = 400
 
-# color
+# 색상
 WHITE = (255, 255, 255)
 
 

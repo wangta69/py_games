@@ -10,48 +10,45 @@ screen_height = 500
 WHITE = (255, 255, 255)
 
 # 속도와 질량 기본 값
-VELOCITY = 7
-MASS = 2
-
+VELOCITY = 7  # 속도
+MASS = 2  # 질량
 
 class Car:
     def __init__(self):
-        self.image = ""
+        self.image = None
+        self.rect = None
         self.dx = 0
         self.dy = 0
-        self.rect = ""
-        self.isJump = 0
+        self.isJump = 0  # 바닥(0), 점프중 (1), 이중점프(2)
         self.v = VELOCITY  # 속도
         self.m = MASS  # 질량
 
-    def load_car(self):
+    def load_car(self):  # 자동차 이미지를 불러와 위치를 정한다.
         # 플레이어 차량
         self.image = pygame.image.load("assets/images/smallcar.png")
         # 크기 조정
         self.image = pygame.transform.scale(self.image, (150, 57))
         self.rect = self.image.get_rect()
-        self.rect.centerX = round(screen_width / 2)
         self.rect.bottom = screen_height
 
-    # 자동차를 스크린에 그리기
-    def draw_car(self):
+    def draw_car(self):  # 자동차를 스크린에 그리기
         screen.blit(self.image, [self.rect.x, self.rect.y])
 
     # x 좌표 이동 - 플레이어 자동차의 움직임 제어할 때 필요
     def move_x(self):
         self.rect.x += self.dx
 
-    # 화면 밖으로 못 나가게 방지
-    def check_screen(self):
+    def check_screen(self):  # 화면 밖으로 못 나가게 방지
         if self.rect.right > screen_width or self.rect.x < 0:
             self.rect.x -= self.dx
+        print('check_screen', self.rect.bottom, screen_height, self.rect.y)
         if self.rect.bottom > screen_height or self.rect.y < 0:
             self.rect.y -= self.dy
-
-    def jump(self, j):
+    
+    def jump(self, j):  # 점프상태 변경
         self.isJump = j
-
-    def update(self):
+        
+    def doJump(self):
         # isJump 값이 0보다 큰지 확인
         if self.isJump > 0:
             # isJump 값이 2일 경우 속도를 리셋
@@ -92,16 +89,13 @@ def main():
 
     clock = pygame.time.Clock()
 
-    # 플레이어 자동차 생성
-    player = Car()
-    player.load_car()
+    player = Car()  # 플레이어 자동차 생성, player 라는 객체를 생성한다.
+    player.load_car()  # 자동차 이미지 로드
 
     playing = True
 
     while playing:
-
-        # 키가 눌린 상태 체크
-        keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()  # 키가 눌린 상태 체크
         # 스페이스키가 눌려있고, isJump가 2라면 1로 변경한다.
         # 이 작업을 해주지 않으면 스페이스가 눌려있는 상태면 플레이어가 계속 위로 올라가게 된다.
         if (keys[pygame.K_SPACE]):
@@ -114,48 +108,37 @@ def main():
                 pygame.quit()
                 sys.exit()
 
-            # 화살표 키를 이용해서 플레이어의 움직임 거리를 조정해준다.
-            # 키를 떼면 움직임 거리를 0으로 한다.
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
+            if event.type == pygame.KEYDOWN:  # 키를 눌렀을 경우
+                if event.key == pygame.K_RIGHT:  # 방향키를 눌렀을 경우 자동차의 위치를 바꾼다.
                     player.dx = 5
                 elif event.key == pygame.K_LEFT:
                     player.dx = -5
-
+                    
                 # 스페이스키를 눌렀을 때,
                 # 0이면 바닥인 상태 : 1로 변경
                 # 1이면 점프를 한 상태 : 2로 변경, 점프한 위치에서 다시 점프를 하게 된다. 즉, 이중점프
                 if event.key == pygame.K_SPACE:
-                    if player.isJump == 0:
+                    if player.isJump == 0:  # 자동차가 바닥에 있으면
                         player.jump(1)
-                    elif player.isJump == 1:
+                    elif player.isJump == 1:  # 현재 점핑 중일 경우
                         player.jump(2)
-
-            if event.type == pygame.KEYUP:
+                    
+            if event.type == pygame.KEYUP:  # 키에서 손을 땔 경우
                 if event.key == pygame.K_RIGHT:
                     player.dx = 0
                 elif event.key == pygame.K_LEFT:
                     player.dx = 0
 
-        # 배경색을 흰색으로
-        screen.fill(WHITE)
+        screen.fill(WHITE)  # 배경색을 흰색으로
 
-        ''' 게임 코드 작성 '''
-
-        # 플레이어를 스크린에 표시 및 화면 밖으로 못 벗어나게 하기
-        player.draw_car()
+        player.draw_car()  # 자동차를 그린다.
         player.move_x()
 
-        # 플레이어의 y 좌표를 움직여주는 메서드 추가, 점프하는 것
-        player.update()
-        player.check_screen()
-
-        ''' 게임 코드 끝 '''
+        player.doJump()  # 플레이어의 y 좌표를 움직여주는 메서드 추가, 점프하는 것
+        player.check_screen()  # 화면밖으로 나가지 않게 처리
 
         pygame.display.flip()
-
-        # 초당 프레임 설정
-        clock.tick(60)
+        clock.tick(60)  # 초당 60번 실행
 
 if __name__ == '__main__':
     main()

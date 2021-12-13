@@ -2,53 +2,55 @@ import pygame
 import random
 from time import sleep
 
+screen_width = 480
+screen_height = 640
+
+# color
 BLACK = (0, 0, 0)
-padWidth = 480
-padHeight = 640
 
 pygame.init()
-gamePad = pygame.display.set_mode((padWidth, padHeight))
+screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('PyShooting')
-background = pygame.image.load('assets/background.png')
-fighter =  pygame.image.load('assets/fighter.png')
-missile = pygame.image.load('assets/missile.png')
-explosion = pygame.image.load('assets/explosion.png')
-pygame.mixer.music.load('assets/music.wav')
+background = pygame.image.load('assets/images/background.png')
+fighter =  pygame.image.load('assets/images/fighter.png')
+missile = pygame.image.load('assets/images/missile.png')
+explosion = pygame.image.load('assets/images/explosion.png')
+pygame.mixer.music.load('assets/sounds/music.wav')
 pygame.mixer.music.play(-1)
-missileSound = pygame.mixer.Sound('assets/missile.wav')
-gameOverSound = pygame.mixer.Sound('assets/gameover.wav')
+missileSound = pygame.mixer.Sound('assets/sounds/missile.wav')
+gameOverSound = pygame.mixer.Sound('assets/sounds/gameover.wav')
 clock = pygame.time.Clock()
 
-rockImage = ['assets/rock01.png', 'assets/rock02.png', 'assets/rock03.png', 'assets/rock04.png', 'assets/rock05.png',
-             'assets/rock06.png', 'assets/rock07.png', 'assets/rock08.png', 'assets/rock09.png', 'assets/rock10.png',
-             'assets/rock11.png', 'assets/rock12.png', 'assets/rock13.png', 'assets/rock14.png', 'assets/rock15.png',
-             'assets/rock16.png', 'assets/rock17.png', 'assets/rock18.png', 'assets/rock19.png', 'assets/rock20.png',
-             'assets/rock21.png', 'assets/rock22.png', 'assets/rock23.png', 'assets/rock24.png', 'assets/rock25.png',
-             'assets/rock26.png', 'assets/rock27.png', 'assets/rock28.png', 'assets/rock29.png', 'assets/rock30.png']
-explosionSound = ['assets/explosion01.wav', 'assets/explosion02.wav', 'assets/explosion03.wav', 'assets/explosion04.wav']
+rockImage = ['rock01.png', 'rock02.png', 'rock03.png', 'rock04.png', 'rock05.png',
+             'rock06.png', 'rock07.png', 'rock08.png', 'rock09.png', 'rock10.png',
+             'rock11.png', 'rock12.png', 'rock13.png', 'rock14.png', 'rock15.png',
+             'rock16.png', 'rock17.png', 'rock18.png', 'rock19.png', 'rock20.png',
+             'rock21.png', 'rock22.png', 'rock23.png', 'rock24.png', 'rock25.png',
+             'rock26.png', 'rock27.png', 'rock28.png', 'rock29.png', 'rock30.png']
+explosionSound = ['explosion01.wav', 'explosion02.wav', 'explosion03.wav', 'explosion04.wav']
 
 def drawObject(obj, x, y):
-    global gamePad
-    gamePad.blit(obj, (x, y))
+    global screen
+    screen.blit(obj, (x, y))
 
 def writeScore(count):
-    global gamePad
-    font = pygame.font.Font('assets/NanumGothic.ttf', 20)
+    global screen
+    font = pygame.font.Font('assets/fonts/NanumGothic.ttf', 20)
     text = font.render('파괴한 운석 수: ' + str(count), True, (255, 255, 255))
-    gamePad.blit(text, (10, 0))
+    screen.blit(text, (10, 0))
 
 def writePassed(count):
-    global gamePad
-    font = pygame.font.Font('assets/NanumGothic.ttf', 20)
+    global screen
+    font = pygame.font.Font('assets/fonts/NanumGothic.ttf', 20)
     text = font.render('놓친 운석 수: ' + str(count), True, (255, 0, 0))
-    gamePad.blit(text, (360, 0))
+    screen.blit(text, (340, 0))
 
 def writeMessage(text):
-    textfont = pygame.font.Font('assets/NanumGothic.ttf', 80)
+    textfont = pygame.font.Font('assets/fonts/NanumGothic.ttf', 80)
     text = textfont.render(text, True, (255, 0, 0))
     textpos = text.get_rect()
-    textpos.center = (padWidth/2, padHeight/2)
-    gamePad.blit(text, textpos)
+    textpos.center = (screen_width/2, screen_height/2)
+    screen.blit(text, textpos)
     pygame.display.update()
     pygame.mixer.music.stop()
     gameOverSound.play()
@@ -56,30 +58,37 @@ def writeMessage(text):
     pygame.mixer.music.play(-1)
 
 def crash():
-    global gamePad
+    global screen
     writeMessage('전투기 파괴!')
 
 def gameOver():
-    global gamePad
+    global screen
     writeMessage('게임 오버!')
+
+def loadRock():
+    return pygame.image.load('assets/images/' + random.choice(rockImage))
+
+# def explosion():
+def crashSound():
+    return pygame.mixer.Sound('assets/sounds/' + random.choice(explosionSound))
 
 fighterSize = fighter.get_rect().size
 fighterWidth = fighterSize[0]
 fighterHeight = fighterSize[1]
 
-x = padWidth *0.45
-y = padHeight * 0.9
+x = screen_width *0.45
+y = screen_height * 0.9
 fighterX = 0
 
 missileXY = []
 
-rock = pygame.image.load(random.choice(rockImage))
+rock = loadRock()
 rockSize = rock.get_rect().size
 rockWidth = rockSize[0]
 rockHeight = rockSize[1]
-destroySound = pygame.mixer.Sound(random.choice(explosionSound))
+destroySound = crashSound()
 
-rockX = random.randrange(0, padWidth - rockWidth)
+rockX = random.randrange(0, screen_width - rockWidth)
 rockY = 0
 rockSpeed = 2
 
@@ -88,7 +97,6 @@ shotCount = 0
 rockPassed = 0
 
 while True:
-    #gamePad.fill(BLACK)
     drawObject(background, 0, 0)
 
     event = pygame.event.poll()
@@ -113,8 +121,8 @@ while True:
     x += fighterX
     if x < 0:
         x = 0
-    elif x > padWidth - fighterWidth:
-        x = padWidth - fighterWidth
+    elif x > screen_width - fighterWidth:
+        x = screen_width - fighterWidth
 
     if y < rockY + rockHeight:
         if (rockX > x and rockX < x + fighterWidth) or \
@@ -148,12 +156,12 @@ while True:
 
     rockY += rockSpeed
 
-    if rockY > padHeight:
-        rock = pygame.image.load(random.choice(rockImage))
+    if rockY > screen_height:
+        rock = loadRock()
         rockSize = rock.get_rect().size
         rockWidth = rockSize[0]
         rockHeight = rockSize[1]
-        rockX = random.randrange(0, padWidth - rockWidth)
+        rockX = random.randrange(0, screen_width - rockWidth)
         rockY = 0
         rockPassed += 1
 
@@ -166,13 +174,13 @@ while True:
         drawObject(explosion, rockX, rockY)
         destroySound.play()
 
-        rock = pygame.image.load(random.choice(rockImage))
+        rock = loadRock()
         rockSize = rock.get_rect().size
         rockWidth = rockSize[0]
         rockHeight = rockSize[1]
-        rockX = random.randrange(0, padWidth, rockWidth)
+        rockX = random.randrange(0, screen_width, rockWidth)
         rockY = 0
-        destroySound = pygame.mixer.Sound(random.choice(explosionSound))
+        destroySound = crashSound()
         isShot = False
 
         rockSpeed += 0.02

@@ -63,6 +63,7 @@ else:
     ...
 ```
 
+![공룡게임](../../assets/images/gamefront/dino.png)
 본격적으로 소스분석을 해 보겠습니다.
 먼저 전체 소스는 아래와 같습니다.
 ### Full Source
