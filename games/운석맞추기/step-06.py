@@ -2,18 +2,16 @@ import sys
 import pygame
 import random
 
-
 class Fighter:
     """
     fighter class
     """
-
     def __init__(self, parent):  # 초기화시 Shooting 게임의 screen 정보를 가져온다.
         self.screen = parent.screen
         self.screen_width = parent.screen.get_width()
         self.screen_height = parent.screen.get_height()
         self.fighter = pygame.image.load('assets/images/fighter.png')
-
+        
         # fighter 의 크기
         size = self.fighter.get_rect().size
         self.width = size[0]
@@ -40,7 +38,6 @@ class Missile:
     """
     Missile Class
     """
-
     def __init__(self, parent):
         self.screen = parent.screen
         self.rock = parent.rock
@@ -89,7 +86,6 @@ class Rock:
     """
     Rock Class
     """
-
     def __init__(self, parent):
         self.screen = parent.screen
         self.fighter = parent.fighter
@@ -133,9 +129,9 @@ class Rock:
         rock = self.__collision_attr()
         obj2 = self.__collision_attr(self.fighter)
         if rock['top'] < obj2['bottom'] \
-                and obj2['top'] < rock['bottom'] \
-                and rock['left'] < obj2['right'] \
-                and obj2['left'] < rock['right']:
+            and obj2['top'] < rock['bottom'] \
+            and rock['left'] < obj2['right'] \
+            and obj2['left'] < rock['right']:
             return True
         else:
             return False
@@ -153,7 +149,6 @@ class Rock:
         self.speed += 0.2  # 속도를 0.2 만큼 올린다.
         if self.speed >= 10:  # 속도가 10보다 크면 10으로 유지한다.
             self.speed = 10
-
 
 class Smash:
     """
@@ -210,7 +205,7 @@ class Dashboard:
         self.diplay_score()
         self.dispaly_missed()
         self.display_message()
-
+        
     def diplay_score(self):
         text = self.font20.render('파괴한 운석 수: ' + str(self.score), True, (255, 255, 255))
         self.screen.blit(text, (10, 0))
@@ -229,7 +224,7 @@ class Dashboard:
             text_pos = text.get_rect()
             text_pos.center = (self.screen_width / 2, self.screen_height / 2)
             self.screen.blit(text, text_pos)
-
+            
             pygame.mixer.music.stop()  # 기존 음악 삭제
             self.gameOverSound.play()  # 게임 종료음 출력
             pygame.mixer.music.play(-1)
@@ -260,7 +255,7 @@ class Shooting:
         pygame.init()
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption('Shooting Game')
-
+        
         # 지구와 우주가 보이는 배경화면 설정
         self.background = pygame.image.load('assets/images/background.png')
         # 배경사운드 설정
@@ -268,7 +263,7 @@ class Shooting:
         pygame.mixer.music.play(-1)
 
         self.clock = pygame.time.Clock()
-
+        
         # 객체생성
         self.dashboard = Dashboard(self)
         self.fighter = Fighter(self)  # fighter 객체생성
@@ -276,6 +271,8 @@ class Shooting:
         self.rock.create()  # 운석을 만든다
         self.smash = Smash(self)  # smash 객체생성
         self.missile = Missile(self)  # missile 객체생성 (반드시 rock 객체 생성후 넣어둔다.)
+
+
 
     def drawObject(self, obj, x, y):
         self.screen.blit(obj, (x, y))
@@ -305,7 +302,7 @@ class Shooting:
             if self.dashboard.missed == 3:  # 운석을 3번 놓치면 게임종료
                 self.dashboard.set_end('게임 오버!')
                 self.playing = False
-
+                
             if self.playing:  # 게임이 진행중이면
                 self.fighter.x += fighter_x  # fighter 포지션 변경
 
@@ -327,4 +324,4 @@ class Shooting:
 
 
 if __name__ == '__main__':
-    shooting = Shooting()  # 클래스 호출시 클래스내의 __init__(self): 부분은 자동실행된다.
+   shooting = Shooting()  # 클래스 호출시 클래스내의 __init__(self): 부분은 자동실행된다.
